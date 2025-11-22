@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TARGET_DIR="/tmp"
+TARGET_DIR="/Users/mariusiordan/Documents/Documents/Screenshoots"
 LOGFILE="/var/log/cleanup.log"
 
 # 1. Check directory exists
@@ -11,16 +11,21 @@ fi
 
 echo "Cleanup started at: $(date)" >> "$LOGFILE"
 
-# 2. Find and delete files older than 3 days
-# 👉 Your task:
-# Use 'find' to search for files older than 3 days
-# For each file, write to the log, then delete it.
-
-# Example find command:
 # find $TARGET_DIR -type f -mtime +3
+
+for file in $(find "$TARGET_DIR" -type f -name "*.png" -mtime +180); do
+    echo "Deleting at: $file" >> "$LOGFILE"
+    rm -f "$file"
+done
 
 # 3. Print completion message
 echo "Cleanup completed at: $(date)" >> "$LOGFILE"
 
 exit 0
+
+
+
+
+
+
 
