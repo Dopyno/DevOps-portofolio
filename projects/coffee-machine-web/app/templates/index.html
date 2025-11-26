@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Coffee Machine</title>
+</head>
+<body>
+  <h1>Coffee Machine</h1>
+  <form method="post">
+    <label>Customer name:</label>
+    <input type="text" name="customer" required><br><br>
+
+    <label>Coffee type:</label>
+    <select name="coffee" required>
+      <option value="espresso">Espresso</option>
+      <option value="latte">Latte</option>
+      <option value="cappuccino">Cappuccino</option>
+    </select><br><br>
+
+    <label>Size:</label>
+    <select name="size" required>
+      <option value="small">Small</option>
+      <option value="medium">Medium</option>
+      <option value="large">Large</option>
+    </select><br><br>
+
+    <button type="submit">Place order</button>
+  </form>
+
+  <p><a href="{{ url_for('main.report') }}">View report</a></p>
+</body>
+</html>
+
+

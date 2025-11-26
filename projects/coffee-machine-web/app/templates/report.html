@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Coffee Report</title>
+</head>
+<body>
+  <h1>Orders report</h1>
+
+  {% if orders %}
+    <table border="1" cellspacing="0" cellpadding="5">
+      <tr>
+        <th>ID</th>
+        <th>Customer</th>
+        <th>Coffee</th>
+        <th>Size</th>
+        <th>Created at</th>
+      </tr>
+      {% for o in orders %}
+      <tr>
+        <td>{{ o.id }}</td>
+        <td>{{ o.customer_name }}</td>
+        <td>{{ o.coffee_type }}</td>
+        <td>{{ o.size }}</td>
+        <td>{{ o.created_at }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>No orders yet.</p>
+  {% endif %}
+
+  <p><a href="{{ url_for('main.index') }}">Back</a></p>
+</body>
+</html>
+

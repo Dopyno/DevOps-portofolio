@@ -1,0 +1,5 @@
+2025-11-25 22:47:06,296 [INFO] app: CoffeeMachine startup
+2025-11-25 22:47:06,498 [INFO] app: CoffeeMachine startup
+2025-11-25 22:48:02,812 [INFO] app: S3_BUCKET_NAME not set, skipping S3 upload
+2025-11-25 22:49:14,126 [INFO] app: S3_BUCKET_NAME not set, skipping S3 upload
+2025-11-25 22:49:30,336 [INFO] app: S3_BUCKET_NAME not set, skipping S3 upload
