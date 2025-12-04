@@ -1,0 +1,41 @@
+{
+  "versions": [
+    {
+      "version": "1.0.0",
+      "release_date": "2023-01-15",
+      "status": "stable",
+      "notes": "Initial release"
+    },
+    {
+      "version": "1.1.0",
+      "release_date": "2023-03-10",
+      "status": "stable",
+      "notes": "Added new authentication module"
+    },
+    {
+      "version": "1.2.0",
+      "release_date": "2023-06-05",
+      "status": "stable",
+      "notes": "Improved performance and bug fixes"
+    },
+    {
+      "version": "2.0.0",
+      "release_date": "2024-01-20",
+      "status": "beta",
+      "notes": "Major UI redesign and new API endpoints"
+    },
+    {
+      "version": "2.1.0",
+      "release_date": "2024-05-12",
+      "status": "stable",
+      "notes": "Security patches and minor improvements"
+    },
+    {
+      "version": "3.0.0",
+      "release_date": "2025-02-01",
+      "status": "alpha",
+      "notes": "Experimental features for next-gen release"
+    }
+  ]
+}
+
