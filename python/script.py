@@ -3,7 +3,15 @@
 import os
 import time
 
-with open("app.json") as f:
-    app_cfg = json.load(f)
+import subprocess
 
-print(app_cfg["version"]
+# generally safer as it bypasses shell interpretation
+exit_code = subprocess.call(["echo", "Hello from subprocess.call!"])
+# if you need shell features like pipes
+exit_code_shell = subprocess.call("ls -l | grep txt", shell=True)
+
+result = subprocess.run(["git", "status"], capture_output=True, text=True,
+check=False)
+print(f"Git Status Exit Code: {result.returncode}")
+print(f"Git Status Stdout:\n{result.stdout.strip()}")
+print(f"Git Status Stderr:\n{result.stderr.strip()}")
