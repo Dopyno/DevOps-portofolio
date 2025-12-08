@@ -1,0 +1,4 @@
+2025-12-08 17:40:48,558 - devops_app_logger - DEBUG - script.py:137 - Detailed debug info (file only).
+2025-12-08 17:40:48,558 - devops_app_logger - INFO - script.py:138 - Application started successfully.
+2025-12-08 17:40:48,558 - devops_app_logger - WARNING - script.py:139 - Configuration file not found, using defaults.
+2025-12-08 17:40:48,558 - devops_app_logger - ERROR - script.py:140 - Failed to process user request ID 123.
