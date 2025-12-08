@@ -15,3 +15,12 @@ check=False)
 print(f"Git Status Exit Code: {result.returncode}")
 print(f"Git Status Stdout:\n{result.stdout.strip()}")
 print(f"Git Status Stderr:\n{result.stderr.strip()}")
+ 
+print("=" * 30)
+
+# Input string, includes newline to simulate pressing Enter
+result = subprocess.run(
+["bash", "-c", "echo -n 'Enter your name: '; read NAME; echo \"Hello, $NAME!\""],
+input="Alice\n",
+capture_output=True, text=True, check=True )
+print(f"Output:\n{result.stdout.strip()}")
