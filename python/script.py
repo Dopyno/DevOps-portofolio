@@ -6,7 +6,7 @@ import argparse
 import logging
 import subprocess
 from logging.handlers import RotatingFileHandler
-
+import requests
 
 # # generally safer as it bypasses shell interpretation
 # exit_code = subprocess.call(["echo", "Hello from subprocess.call!"])
@@ -99,7 +99,6 @@ from logging.handlers import RotatingFileHandler
 #     print("Verbose mode disabled.")
 
 
-
 # 1. Create logger
 logger = logging.getLogger("devops_app_logger")
 logger.setLevel(logging.DEBUG)
@@ -138,3 +137,45 @@ logger.debug("Detailed debug info (file only).")
 logger.info("Application started successfully.")
 logger.warning("Configuration file not found, using defaults.")
 logger.error("Failed to process user request ID 123.")
+
+
+FAKE_STORE_API_BASE_URL = "https://fakestoreapi.com"
+products_url = f"{FAKE_STORE_API_BASE_URL}/products"
+response = requests.get(products_url, timeout=10)
+products = response.json()
+print(f"Status Code: {response.status_code}")
+print(f"Fetched {len(products)} products.")
+
+add_product_url = f"{FAKE_STORE_API_BASE_URL}/products"
+new_product_data = {
+    "title": "Python DevOps Masterclass Book",
+    "price": 49.99,
+    "description": "Applying Python in DevOps workflows.",
+    "image": "https://i.pravatar.cc",  # Placeholder image
+    "category": "electronics",  # Can be any category, not strictly enforced
+}
+response = requests.post(add_product_url, json=new_product_data, timeout=10)
+added_product = response.json()
+print(f"Status Code: {response.status_code}")
+print(f"Simulated new product added with ID: {added_product.get('id')}")
+print(f"Simulated Product Title: '{added_product.get('title')}'")
+
+update_product_url = f"{FAKE_STORE_API_BASE_URL}/products/7"
+updated_product_data = {
+    "title": "Updated DevOps Toolkit (v2.0)",
+    "price": 129.99,
+    "description": "The latest version of the essential DevOps toolkit software.",
+    "image": "https://i.pravatar.cc",
+    "category": "electronics",
+}
+response = requests.put(update_product_url, json=updated_product_data, timeout=10)
+updated_product = response.json()
+print(f"Status Code: {response.status_code}")
+print(f"Product ID 7 updated. New Title: '{updated_product.get('title')}'")
+print(f"Simulated New Price: ${updated_product.get('price')}")
+
+delete_product_url = f"{FAKE_STORE_API_BASE_URL}/products/1"
+response = requests.delete(delete_product_url, timeout=10)
+deleted_response = response.json()
+print(f"Status Code: {response.status_code}")
+print(f"Product ID 1 deleted. Deleted item title: '{deleted_response.get('title')}'")
