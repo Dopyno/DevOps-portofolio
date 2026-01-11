@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-seed
+  namespace: three-tier
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: psql
+          image: postgres:16
+          env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+          command: ["sh","-c"]
+          args:
+            - |
+              set -e
+              echo "Waiting for postgres..."
+              until pg_isready -h postgres -p 5432 -U appuser; do sleep 2; done
+
+              psql -h postgres -U appuser -d appdb <<'SQL'
+              create table if not exists public.cats (
+                id serial primary key,
+                name text not null,
+                age int not null
+              );
+
+              insert into public.cats (name, age)
+              values ('Milo', 2), ('Luna', 4)
+              on conflict do nothing;
+              SQL
+
+              echo "Seed done."
