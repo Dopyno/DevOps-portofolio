@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>MovieBox (LB)</title>
+  <link rel="stylesheet" href="/styles.css">
+
+</head>
+<body>
+  <h1>MovieBox</h1>
+  <div class="bar">
+    <span class="pill" id="lbInfo">LB: —</span>
+    <input id="q" placeholder="Caută titlu..." />
+    <button id="refresh">Refresh</button>
+  </div>
+
+  <h2 style="margin-top:18px;">Adaugă film</h2>
+  <form id="form" class="bar">
+    <input name="title" placeholder="Titlu *" required />
+    <input name="year" placeholder="An" type="number" min="1888" max="2100" />
+    <input name="genre" placeholder="Gen" />
+    <input name="poster" type="file" accept=".png,.jpg,.jpeg,.webp" />
+    <button type="submit">Adaugă</button>
+  </form>
+  <div class="muted" style="margin-top:6px;">
+    Sugestie: apasă Refresh de mai multe ori ca să vezi cum răspund instanțele diferite.
+  </div>
+
+  <div id="grid" class="grid"></div>
+
+  <script>
+    const grid = document.getElementById("grid");
+    const qEl = document.getElementById("q");
+    const lbInfo = document.getElementById("lbInfo");
+
+    async function loadMovies() {
+      const q = qEl.value.trim();
+      const url = q ? `/api/movies?q=${encodeURIComponent(q)}` : "/api/movies";
+      const res = await fetch(url, { cache: "no-store" });
+      const data = await res.json();
+
+      // arată din ce backend a răspuns ultima cerere (dovadă LB)
+      lbInfo.textContent = `Last API instance: ${data.instance || "—"}`;
+
+      grid.innerHTML = "";
+      (data.items || []).forEach(m => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const poster = document.createElement("div");
+        poster.className = "poster";
+
+        const img = document.createElement("img");
+        img.alt = m.title;
+        img.loading = "lazy";
+        img.src = m.poster_url || "";
+        poster.appendChild(img);
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+
+        const left = document.createElement("div");
+        const t = document.createElement("div");
+        t.className = "title";
+        t.textContent = m.title;
+
+        const s = document.createElement("div");
+        s.className = "small";
+        s.textContent = [m.year, m.genre].filter(Boolean).join(" • ");
+
+        left.appendChild(t);
+        left.appendChild(s);
+
+        const del = document.createElement("button");
+        del.className = "danger";
+        del.textContent = "Șterge";
+        del.onclick = async () => {
+          if (!confirm("Ștergi filmul?")) return;
+          await fetch(`/api/movies/${m.id}`, { method: "DELETE" });
+          await loadMovies();
+        };
+
+        meta.appendChild(left);
+        meta.appendChild(del);
+
+        card.appendChild(poster);
+        card.appendChild(meta);
+        grid.appendChild(card);
+      });
+    }
+
+    document.getElementById("refresh").addEventListener("click", loadMovies);
+    qEl.addEventListener("input", () => { clearTimeout(window.__t); window.__t = setTimeout(loadMovies, 250); });
+
+    document.getElementById("form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const res = await fetch("/api/movies", { method: "POST", body: fd });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        alert(err.error || "Eroare la adăugare.");
+        return;
+      }
+      e.target.reset();
+      await loadMovies();
+    });
+
+    loadMovies();
+  </script>
+</body>
+</html>
+
