@@ -11,14 +11,7 @@ services:
       - backend-api-2
     networks:
       - app-network
-    # (opțional) healthcheck pentru nginx (verifică dacă servește pagina)
-    healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:5000/api/health >/dev/null || exit 1"]
-      interval: 10s
-      timeout: 3s
-      retries: 5
-
-
+    
   backend-api-1:
     build:
       context: ./backend
@@ -44,7 +37,7 @@ services:
       context: ./backend
     container_name: backend-api-2
     environment:
-        - INSTANCE=backend-api-1
+        - INSTANCE=backend-api-2
         # opțional dacă folosești sqlite/uploads shared
         - DB_PATH=/data/app.db
         - UPLOAD_DIR=/uploads
