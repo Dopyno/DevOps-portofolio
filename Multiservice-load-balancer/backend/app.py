@@ -13,6 +13,8 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
 def create_app():
     app = Flask(__name__)
 
+    app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024  # 10 MB
+
     instance_name = os.getenv("INSTANCE", "unknown-instance")
 
     # DB în /data ca să îl montăm volume shared
@@ -131,6 +133,6 @@ def create_app():
 
 app = create_app()
 
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
-
